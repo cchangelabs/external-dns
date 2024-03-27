@@ -84,8 +84,8 @@ func (ps *podSource) Endpoints(ctx context.Context) ([]*endpoint.Endpoint, error
 
 	endpointMap := make(map[endpoint.EndpointKey][]string)
 	for _, pod := range pods {
-		if !pod.Spec.HostNetwork {
-			log.Debugf("skipping pod %s. hostNetwork=false", pod.Name)
+		if pod.Status.Phase != corev1.PodRunning {
+			log.Debugf("skipping pod %s. Status is not Running", pod.Name)
 			continue
 		}
 
